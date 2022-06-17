@@ -73,10 +73,9 @@ const showAllTodo = (todos) => {
         <p class="p3" onclick="showActive()">Active</p>
         <p class="p4" onclick="showCompleted()">Completed</p>
     </div>
-    <p class="p5">Clear Completed</p>
+    <p class="p5" ng-click="remove()">Clear Completed</p>
 </div>`
     document.querySelector(".div6").appendChild(remaining)
-
 
 }
 
@@ -125,8 +124,13 @@ let input = document.getElementById("input")
 form.addEventListener("submit", (e) => {
     e.preventDefault()
 
-    addTodo(input.value)
-    input.value = ""
+    if (input.value.length == 0) {
+        alert("Please Enter a Task")
+    } else {
+        addTodo(input.value)
+    }
+
+
 
 })
 
