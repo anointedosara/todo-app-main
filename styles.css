@@ -701,6 +701,7 @@ input::placeholder {
         font-size: 17px;
         text-align: center;
         margin-top: 50px !important;
+        line-height: 27px;
     }
     .attribution a {
         color: hsl(228, 45%, 44%);
