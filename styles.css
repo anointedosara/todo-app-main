@@ -563,7 +563,7 @@ input::placeholder {
         text-decoration: line-through;
     }
     .div5 div {
-        width: 25px;
+        width: 27px;
         height: 25px;
         border-radius: 50%;
         border: 2px solid var(--border);
@@ -625,18 +625,16 @@ input::placeholder {
         display: none;
     }
     .close-div {
-        width: 40px;
-        height: 40px;
+        width: 15px;
+        height: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .close-img {
-        opacity: 0;
-        transition: 0.5s all ease;
-    }
-    .div7:hover .close-img {
         opacity: 1;
+        width: 100%;
+        transition: 0.5s all ease;
     }
     .div7:hover .check {
         border: 2px solid hsl(280, 87%, 65%);
