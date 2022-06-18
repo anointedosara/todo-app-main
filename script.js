@@ -66,7 +66,6 @@ const showAllTodo = () => {
         })
         todoComponent.querySelector(".close-div").addEventListener("click", (e) => {
             e.stopPropagation();
-            todoComponent.style.display = "none";
             removeTodo(todo.id)
         })
         document.querySelector(".div6").appendChild(todoComponent)
@@ -81,7 +80,7 @@ const showAllTodo = () => {
         <p class="p3" onclick="showActive()">Active</p>
         <p class="p4" onclick="showCompleted()">Completed</p>
     </div>
-    <p class="p5" ng-click="remove()">Clear Completed</p>
+    <p class="p5" onclick="clearCompleted()">Clear Completed</p>
 </div>`
     document.querySelector(".div6").appendChild(remaining)
     const last = document.createElement("div")
@@ -94,10 +93,6 @@ const showAllTodo = () => {
     document.querySelector(".div9").appendChild(last)
 
 }
-
-
-
-
 
 showAllTodo()
 
@@ -123,10 +118,9 @@ const addTodo = (value) => {
 }
 
 const removeTodo = (id) => {
-    const data = todosToSHow
+    const data = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
     const modifiedData = data.filter((todo) => todo.id !== id)
     localStorage.setItem("todos", JSON.stringify(modifiedData))
-    todosToSHow = modifiedData
     showAllTodo()
 }
 
