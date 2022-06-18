@@ -2,6 +2,11 @@ let dark = document.getElementById("dark")
 let light = document.getElementById("light")
 const root = document.querySelector(':root')
 let darkMode = false;
+
+let todosToSHow = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+let tab = "all"
+
+
 const previousStyle = getComputedStyle(root);
 if (darkMode != true) {
     dark.addEventListener("click", function() {
@@ -33,9 +38,12 @@ if (lightMode != true) {
 }
 
 
-const showAllTodo = (todos) => {
-    const data = todos || (localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [])
+const showAllTodo = () => {
+    const all = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+    let data = tab === "all" ? all : tab === "active" ? all.filter(todo => todo.completed === false) : all.filter(todo => todo.completed === true)
+
     document.querySelector(".div6").innerHTML = ""
+    document.querySelector(".div9").innerHTML = ""
     data.forEach((todo) => {
         const todoComponent = document.createElement("div")
         todoComponent.innerHTML = `<div class="div7">
@@ -69,39 +77,42 @@ const showAllTodo = (todos) => {
     remaining.innerHTML = `<div class="div8">
     <p class="p1">${data.length - completed.length} items uncompleted</p>
     <div>
-        <p class="p2" onclick="showAllTodo()">All</p>
+        <p class="p2" onclick="showAll()">All</p>
         <p class="p3" onclick="showActive()">Active</p>
         <p class="p4" onclick="showCompleted()">Completed</p>
     </div>
-    <p class="p5" ng-click="remove()">Clear Completed</p>
+    <p class="p5" id="clear">Clear Completed</p>
 </div>`
     document.querySelector(".div6").appendChild(remaining)
-
-}
-
-const last = document.createElement("div")
-last.innerHTML = `
+    const last = document.createElement("div")
+    last.innerHTML = `
     <div class="div11">
-        <p class="p2" onclick="showAllTodo()">All</p>
+        <p class="p2" onclick="showAll()">All</p>
         <p class="p3" onclick="showActive()">Active</p>
         <p class="p4" onclick="showCompleted()">Completed</p>
     </div>`
-document.querySelector(".div9").appendChild(last)
+    document.querySelector(".div9").appendChild(last)
+
+}
+
 
 showAllTodo()
 
+
+
 const completeTodo = (id) => {
-    const data = JSON.parse(localStorage.getItem("todos"));
+    const data = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
     const index = data.findIndex((todo) => todo.id === id)
-    data[index].completed ? data[index].completed = false : data[index].completed = true
+    data[index].completed = !data[index].completed
     localStorage.setItem("todos", JSON.stringify(data))
+
     showAllTodo()
 }
 
 const addTodo = (value) => {
     let allTodos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
     const newTodo = {
-        id: allTodos.length + 1,
+        id: Math.random(),
         name: value,
         completed: false
     }
@@ -111,9 +122,10 @@ const addTodo = (value) => {
 }
 
 const removeTodo = (id) => {
-    const data = JSON.parse(localStorage.getItem("todos"));
+    const data = todosToSHow
     const modifiedData = data.filter((todo) => todo.id !== id)
     localStorage.setItem("todos", JSON.stringify(modifiedData))
+    todosToSHow = modifiedData
     showAllTodo()
 }
 
@@ -128,6 +140,7 @@ form.addEventListener("submit", (e) => {
         alert("Please Enter a Task")
     } else {
         addTodo(input.value)
+        input.value = ""
     }
 
 
@@ -136,13 +149,25 @@ form.addEventListener("submit", (e) => {
 
 
 const showActive = () => {
-    data = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+    data = JSON.parse(localStorage.getItem("todos")) || []
     const uncompleted = data.filter((todo) => todo.completed === false)
-    showAllTodo(uncompleted)
+
+    tab = "active"
+    showAllTodo()
 }
 
 const showCompleted = () => {
-    data = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
+
+    data = JSON.parse(localStorage.getItem("todos")) || []
     const completed = data.filter((todo) => todo.completed === true)
-    showAllTodo(completed)
+
+    tab = "completed"
+    showAllTodo()
+}
+
+const showAll = () => {
+    data = JSON.parse(localStorage.getItem("todos")) || []
+
+    tab = "all"
+    showAllTodo()
 }
