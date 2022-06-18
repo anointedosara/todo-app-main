@@ -81,7 +81,7 @@ const showAllTodo = () => {
         <p class="p3" onclick="showActive()">Active</p>
         <p class="p4" onclick="showCompleted()">Completed</p>
     </div>
-    <p class="p5" id="clear">Clear Completed</p>
+    <p class="p5" ng-click="remove()">Clear Completed</p>
 </div>`
     document.querySelector(".div6").appendChild(remaining)
     const last = document.createElement("div")
@@ -96,9 +96,10 @@ const showAllTodo = () => {
 }
 
 
+
+
+
 showAllTodo()
-
-
 
 const completeTodo = (id) => {
     const data = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []
